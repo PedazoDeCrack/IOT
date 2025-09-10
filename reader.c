@@ -14,6 +14,7 @@ void stream_char_test(){
     fin =fdopen(0, "r");
     if(fout == (FILE *)NULL)
     exit(-1);
+    
 
     do{
         c= fgetc(fin);
@@ -21,4 +22,8 @@ void stream_char_test(){
     }while(c!= EOF);
 
     fclose(fout);s
+
+}
+int main(){
+    stream_char_test();
 }
