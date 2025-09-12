@@ -1,29 +1,26 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 
-#define LEN 1024
+#define FIFO_NAME "/tmp/myfifo"
 
-void stream_char_test(){
-    FILE *fout, *fin;
-    char line[LEN +1];
-    int c;
+#define MAX_LEN 80
 
-    fout  =fopen("test_file_char.txt", "wa");
-    printf("File descriptor of test_file_char.txt is %d\n", fileno(fout));
-    
-    fin =fdopen(0, "r");
-    if(fout == (FILE *)NULL)
-    exit(-1);
-    
+int main(int arc, char *argv[]){
 
-    do{
-        c= fgetc(fin);
-        fputc(c, fout);
-    }while(c!= EOF);
+char buff [MAX_LEN];
+int fdp = mkfifo(FIFO_NAME, S_IFIFO | 0666);
 
-    fclose(fout);s
+int fifo = open (FIFO_NAME, O_RDONLY);
+printf("Pipe is open for read \n");
 
+for(;;){
+int ret = read (fifo, buff, MAX_LEN);
+printf("recived from parent: %s", buff);
 }
-int main(){
-    stream_char_test();
+
+close (fifo);
+
+return 0;
 }
